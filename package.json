@@ -24,7 +24,8 @@
   },
   "eslintConfig": {
     "extends": [
-      "standard"
+      "standard",
+      "standard-react"
     ]
   }
 }
