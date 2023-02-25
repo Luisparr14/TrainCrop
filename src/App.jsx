@@ -7,6 +7,7 @@ import { saveAs } from 'file-saver'
 import { useUploadImages } from './hooks/useUploadImage'
 import { getBase64 } from './utils'
 import Loading from './components/Loading'
+import Input from './components/Input'
 
 function App () {
   const [loading, setLoading] = useState(false)
@@ -17,7 +18,12 @@ function App () {
 
   const handleOnDrop = async (acceptedFiles) => {
     setLoading(true)
-    const ids = await uploadImage({ files: acceptedFiles })
+    let ids = []
+    try {
+      ids = await uploadImage({ files: acceptedFiles })
+    } catch (error) {
+      console.error(error)
+    }
     setImageIds((prev) => [...prev, ...ids])
     setLoading(false)
   }
@@ -61,35 +67,61 @@ function App () {
   }, 500)
 
   return (
-    <div className='App bg-bg-200 flex flex-col items-center justify-center h-screen'>
-      <h1 className='text-3xl font-semibold text-text-100'>TrainCrop</h1>
-      <input type="range" min="256" max="1024" name='width' onChange={handleSetSize} /> {width}
-      <input type="range" min="256" max="1024" name='height' onChange={handleSetSize} /> {height}
-      <MyDropzone onDrop={handleOnDrop} onDropRejected={handleOnDropRejected} />
-      {
-        imageIds.length > 0 && (
-          <button className='bg-primary-100 hover:bg-primary-300 text-text-100 hover:text-gray-900 font-bold py-2 px-4 rounded-full m-3' onClick={handleDownloadAll}>
-            Download All
-          </button>
-        )
-      }
-      {
-        loading && percentage !== 100 && (
-          <Loading percentage={percentage} />
-        )
-      }
-      {
-        loading && percentage === 100 && (
-          <div role="status">
-            Wait a moment...
+    <div className='bg-bg-100 flex flex-col items-center justify-center h-screen overflow-hidden pt-5'>
+      <header>
+        <h1 className="text-primary-100 font-bold text-6xl md:text-6xl mb-2">
+          Train
+          <span className="text-text-200 text-6xl md:text-6xl">Crop</span>
+        </h1>
+      </header>
+      <main className='flex flex-col items-center justify-center w-full flex-1 px-10 text-center'>
+        <section className='flex flex-col max-w-lg w-full'>
+          <Input
+            label='Selet the size of the images (width)'
+            name='width'
+            type='range'
+            min={256}
+            max={1024}
+            onChange={handleSetSize}
+            className='w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
+          />
+          <Input
+            label='Selet the size of the images (height)'
+            name='height'
+            type='range'
+            min={256}
+            max={1024}
+            onChange={handleSetSize}
+            className='w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
+          />
+        </section>
+        <section className='flex flex-col max-w-lg w-full justify-center items-center'>
+          <MyDropzone onDrop={handleOnDrop} onDropRejected={handleOnDropRejected} />
+          <div className='h-12'>
+          {
+            loading && percentage !== 100
+              ? (<Loading percentage={percentage} />)
+              : (loading && <div role="status">
+                  Wait a moment for the images to be processed
+                </div>)
+          }
           </div>
-        )
-      }
-      <div className='flex flex-wrap justify-center px-20 h-1/2 overflow-auto scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full'>
-        {imageIds?.map((publicId) => (
-          <ResultImage key={publicId} publicId={publicId} width={width} height={height} />
-        ))}
-      </div>
+        </section>
+        <div className='flex flex-wrap justify-center px-20 h-1/2 overflow-auto scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full max-h-96'>
+          {imageIds?.map((publicId) => (
+            <ResultImage key={publicId} publicId={publicId} width={width} height={height} />
+          ))}
+        </div>
+        <div className='h-32'>
+        {
+          imageIds.length > 0 && (
+            <button className='bg-primary-100 hover:bg-primary-300 text-text-100 hover:text-gray-900 font-bold py-2 px-4 rounded-full m-3' onClick={handleDownloadAll}>
+              Download All
+            </button>
+          )
+        }
+        </div>
+      </main>
     </div>
   )
 }
