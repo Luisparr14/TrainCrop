@@ -3,7 +3,7 @@ import propTypes from 'prop-types'
 
 function ResultImage ({ publicId, width, height }) {
   return (
-    <div className='m-3'>
+    <div>
       <a
         href={`https://res.cloudinary.com/luisparr14/image/upload/w_${width},h_${height},c_thumb,g_faces/${publicId}`}
         download
