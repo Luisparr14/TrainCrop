@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import propTypes from 'prop-types'
 
 function ResultImage ({ publicId, width, height, onDeleteImage }) {
+  const [loading, setLoading] = useState(true)
   return (
     <div className='relative'>
-      <span title='Delete Image' onClick={() => onDeleteImage(publicId)} className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 absolute right-0 m-0 cursor-pointer select-none">メ</span>
+      {!loading && <span title='Delete Image' onClick={() => onDeleteImage(publicId)} className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300 absolute right-0 m-0 cursor-pointer select-none">メ</span>}
       <a
         href={`https://res.cloudinary.com/luisparr14/image/upload/w_${width},h_${height},c_thumb,g_faces/${publicId}`}
         download
@@ -13,8 +14,9 @@ function ResultImage ({ publicId, width, height, onDeleteImage }) {
       >
       <img
         key={publicId}
-        src={`https://res.cloudinary.com/luisparr14/image/upload/w_${width},h_${height},c_thumb,g_faces/${publicId}`}
+        src={`https://res.cloudinary.com/luisparr14/image/upload/${loading ? 'e_blur:4000,' : ''}w_${width},h_${height},c_thumb,g_faces/${publicId}`}
         alt='uploaded'
+        onLoad={() => setLoading(false)}
         className='h-44 object-contain rounded-lg'/>
       </a>
     </div>
