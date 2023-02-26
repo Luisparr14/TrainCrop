@@ -8,28 +8,32 @@ import { useUploadImages } from './hooks/useUploadImage'
 import { getBase64 } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
+import Error from './components/Error'
+import { ACCEPTED_FILE_TYPES } from './constants'
 
 function App () {
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [imageIds, setImageIds] = useState([])
   const [width, setWidth] = useState(512)
   const [height, setHeight] = useState(512)
   const [percentage, uploadImage] = useUploadImages()
 
-  const handleOnDrop = async (acceptedFiles) => {
+  const handleOnDrop = async (acceptedFiles, rejectedFiles) => {
+    setError(null)
+    if (rejectedFiles.length) {
+      setError(`The file type is not supported, please upload a file with the following extensions: ${ACCEPTED_FILE_TYPES['image/*'].join(', ')}`)
+      return
+    }
     setLoading(true)
     let ids = []
     try {
       ids = await uploadImage({ files: acceptedFiles })
+      setImageIds((prev) => [...prev, ...ids])
     } catch (error) {
       console.error(error)
     }
-    setImageIds((prev) => [...prev, ...ids])
     setLoading(false)
-  }
-
-  const handleOnDropRejected = (rejectedFiles) => {
-    console.log(rejectedFiles)
   }
 
   const handleDownloadAll = async () => {
@@ -67,17 +71,17 @@ function App () {
   }, 500)
 
   return (
-    <div className='bg-bg-100 flex flex-col items-center justify-center h-screen overflow-hidden pt-5'>
-      <header>
+    <div className='bg-bg-100 flex flex-col items-center justify-center'>
+      <header className='mt-5'>
         <h1 className="text-primary-100 font-bold text-6xl md:text-6xl mb-2">
           Train
           <span className="text-text-200 text-6xl md:text-6xl">Crop</span>
         </h1>
       </header>
       <main className='flex flex-col items-center justify-center w-full flex-1 px-10 text-center'>
-        <section className='flex flex-col max-w-lg w-full'>
+        <section className='flex flex-col sm:flex-row max-w-lg w-full gap-2'>
           <Input
-            label='Selet the size of the images (width)'
+            label={`Width: ${width}`}
             name='width'
             type='range'
             min={256}
@@ -86,7 +90,7 @@ function App () {
             className='w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
           />
           <Input
-            label='Selet the size of the images (height)'
+            label={`Height: ${height}`}
             name='height'
             type='range'
             min={256}
@@ -96,32 +100,31 @@ function App () {
           />
         </section>
         <section className='flex flex-col max-w-lg w-full justify-center items-center'>
-          <MyDropzone onDrop={handleOnDrop} onDropRejected={handleOnDropRejected} />
-          <div className='h-12'>
+          <MyDropzone onDrop={handleOnDrop} />
+          <div className='min-h-[64px] w-full flex justify-center items-center'>
           {
-            loading && percentage !== 100
-              ? (<Loading percentage={percentage} />)
-              : (loading && <div role="status">
-                  Wait a moment for the images to be processed
-                </div>)
+            loading && <Loading percentage={percentage} />
+          }
+          {
+            error && <Error error={error} />
           }
           </div>
         </section>
-        <div className='flex flex-wrap justify-center px-20 h-1/2 overflow-auto scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full max-h-96'>
+      </main>
+        <div className='flex flex-wrap justify-center my-1 sm:px-20 h-1/2 overflow-auto scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full max-h-96'>
           {imageIds?.map((publicId) => (
             <ResultImage key={publicId} publicId={publicId} width={width} height={height} />
           ))}
         </div>
-        <div className='h-32'>
+        <div className='h-10 my-2'>
         {
           imageIds.length > 0 && (
-            <button className='bg-primary-100 hover:bg-primary-300 text-text-100 hover:text-gray-900 font-bold py-2 px-4 rounded-full m-3' onClick={handleDownloadAll}>
+            <button className='bg-primary-100 hover:bg-primary-300 text-text-100 hover:text-gray-900 font-bold py-2 px-4 rounded-full h-10' onClick={handleDownloadAll}>
               Download All
             </button>
           )
         }
         </div>
-      </main>
     </div>
   )
 }
