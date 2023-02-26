@@ -3,3 +3,5 @@ export const ACCEPTED_FILE_TYPES = {
 }
 
 export const CLOUDINARY_API_SECRET = import.meta.env.VITE_CLOUDINARY_API_SECRET
+
+export const CLOUDINARY_API_KEY = 259642669531853
