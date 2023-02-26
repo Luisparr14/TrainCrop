@@ -81,6 +81,7 @@ function App () {
       <main className='flex flex-col items-center justify-center w-full flex-1 px-10 text-center'>
         <section className='flex flex-col sm:flex-row max-w-lg w-full gap-2'>
           <Input
+            id={`width-${width}`}
             label={`Width: ${width}`}
             name='width'
             type='range'
@@ -90,6 +91,7 @@ function App () {
             className='w-full h-2 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
           />
           <Input
+            id={`height-${height}`}
             label={`Height: ${height}`}
             name='height'
             type='range'
