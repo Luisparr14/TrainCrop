@@ -3,10 +3,9 @@ import { useDropzone } from 'react-dropzone'
 import propTypes from 'prop-types'
 import { ACCEPTED_FILE_TYPES } from '../constants'
 
-function MyDropzone ({ onDrop, onDropRejected }) {
+function MyDropzone ({ onDrop }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    onDropRejected,
     accept: ACCEPTED_FILE_TYPES
   })
 
@@ -33,6 +32,5 @@ function MyDropzone ({ onDrop, onDropRejected }) {
 export default MyDropzone
 
 MyDropzone.propTypes = {
-  onDrop: propTypes.func.isRequired,
-  onDropRejected: propTypes.func.isRequired
+  onDrop: propTypes.func.isRequired
 }
