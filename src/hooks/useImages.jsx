@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { SHA1 } from 'crypto-js'
 import { useEffect, useState } from 'react'
-import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } from '../constants'
+import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '../constants'
 
 export const useUploadImages = () => {
   const [imageIds, setImageIds] = useState([])
@@ -32,7 +32,7 @@ export const useUploadImages = () => {
       form.append('upload_preset', 'unsignedpreset')
       form.append('folder', 'traincrop')
 
-      const response = await axios.post('https://api.cloudinary.com/v1_1/luisparr14/image/upload', form, {
+      const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, form, {
         onUploadProgress: (progressEvent) => {
           const { progress } = progressEvent
           const { name } = file
@@ -67,7 +67,7 @@ export const useUploadImages = () => {
     form.append('signature', signature)
 
     try {
-      const { data } = await axios.post('https://api.cloudinary.com/v1_1/luisparr14/image/destroy', form)
+      const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/destroy`, form)
       const { result } = data
       if (result !== 'ok') {
         throw new Error(`Error deleting image ${result}`)
@@ -90,7 +90,7 @@ export const useUploadImages = () => {
       form.append('api_key', CLOUDINARY_API_KEY)
       form.append('signature', signature)
 
-      await axios.post('https://api.cloudinary.com/v1_1/luisparr14/image/destroy', form)
+      await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/destroy`, form)
     })
     localStorage.removeItem('imageIds')
     setImageIds([])

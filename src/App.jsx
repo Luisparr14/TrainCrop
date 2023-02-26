@@ -9,7 +9,7 @@ import { getBase64 } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
 import Error from './components/Error'
-import { ACCEPTED_FILE_TYPES } from './constants'
+import { ACCEPTED_FILE_TYPES, CLOUDINARY_CLOUD_NAME } from './constants'
 
 function App () {
   const [loading, setLoading] = useState(false)
@@ -44,7 +44,7 @@ function App () {
       const imgs = zip.folder('images')
 
       for (const publicId of imageIds) {
-        const response = await fetch(`https://res.cloudinary.com/luisparr14/image/upload/w_${width},h_${height},c_thumb,g_faces/${publicId}`)
+        const response = await fetch(`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/w_${width},h_${height},c_thumb,g_faces/${publicId}`)
         const data = await response.blob()
         const base64 = await getBase64(data)
 
