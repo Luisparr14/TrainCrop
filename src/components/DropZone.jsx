@@ -1,10 +1,7 @@
 import React from 'react'
 import { useDropzone } from 'react-dropzone'
 import propTypes from 'prop-types'
-
-const ACCEPTED_FILE_TYPES = {
-  'image/*': ['.jpg', '.jpeg', '.png', '.webp']
-}
+import { ACCEPTED_FILE_TYPES } from '../constants'
 
 function MyDropzone ({ onDrop, onDropRejected }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
