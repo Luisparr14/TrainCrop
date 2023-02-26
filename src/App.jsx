@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce'
 import MyDropzone from './components/DropZone'
 import ResultImage from './components/ResultImage'
 import { saveAs } from 'file-saver'
-import { useUploadImages } from './hooks/useUploadImage'
+import { useUploadImages } from './hooks/useImages'
 import { getBase64 } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
@@ -14,22 +14,24 @@ import { ACCEPTED_FILE_TYPES } from './constants'
 function App () {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [imageIds, setImageIds] = useState([])
   const [width, setWidth] = useState(512)
   const [height, setHeight] = useState(512)
-  const [percentage, uploadImage] = useUploadImages()
+  const { imageIds, percentage, uploadImage, deleteImages, deleteImage } = useUploadImages()
+
+  const resetError = debounce(() => {
+    setError(null)
+  }, 2000)
 
   const handleOnDrop = async (acceptedFiles, rejectedFiles) => {
     setError(null)
     if (rejectedFiles.length) {
       setError(`The file type is not supported, please upload a file with the following extensions: ${ACCEPTED_FILE_TYPES['image/*'].join(', ')}`)
+      resetError()
       return
     }
     setLoading(true)
-    let ids = []
     try {
-      ids = await uploadImage({ files: acceptedFiles })
-      setImageIds((prev) => [...prev, ...ids])
+      await uploadImage({ files: acceptedFiles })
     } catch (error) {
       console.error(error)
     }
@@ -113,17 +115,22 @@ function App () {
           </div>
         </section>
       </main>
-        <div className='flex flex-wrap justify-center my-1 sm:px-20 h-1/2 overflow-auto scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full max-h-96'>
+        <div className='flex gap-4 flex-wrap justify-center my-1 sm:px-20 h-1/2 overflow-auto scrollbar scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-thumb-rounded-full scrollbar-track-rounded-full max-h-96'>
           {imageIds?.map((publicId) => (
-            <ResultImage key={publicId} publicId={publicId} width={width} height={height} />
+            <ResultImage key={publicId} publicId={publicId} width={width} height={height} onDeleteImage={deleteImage} />
           ))}
         </div>
         <div className='h-10 my-2'>
         {
           imageIds.length > 0 && (
-            <button className='bg-primary-100 hover:bg-primary-300 text-text-100 hover:text-gray-900 font-bold py-2 px-4 rounded-full h-10' onClick={handleDownloadAll}>
-              Download All
-            </button>
+            <>
+              <button className='bg-primary-100 hover:bg-primary-300 text-text-100 hover:text-gray-900 font-bold py-2 px-4 rounded-full h-10' onClick={handleDownloadAll}>
+                Download All
+              </button>
+              <button className='bg-red-700 hover:bg-primary-300 text-text-100 hover:text-gray-900 font-bold py-2 px-4 rounded-full h-10 ml-2' onClick={deleteImages}>
+                Delete All
+              </button>
+            </>
           )
         }
         </div>
