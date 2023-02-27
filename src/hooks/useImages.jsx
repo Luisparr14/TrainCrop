@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { SHA1 } from 'crypto-js'
 import { useEffect, useState } from 'react'
-import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME } from '../constants'
+import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET } from '../constants'
 
 export const useUploadImages = () => {
   const [imageIds, setImageIds] = useState([])
@@ -29,7 +29,7 @@ export const useUploadImages = () => {
 
     const imageIds = await Promise.all(files.map(async (file) => {
       form.append('file', file)
-      form.append('upload_preset', 'unsignedpreset')
+      form.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
       form.append('folder', 'traincrop')
 
       const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, form, {
