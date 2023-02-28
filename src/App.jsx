@@ -9,6 +9,7 @@ import { getBase64, getDropZoneErrors } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
 import Error from './components/Error'
+import Footer from './components/Footer'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
 
 function App () {
@@ -136,6 +137,7 @@ function App () {
           )
         }
         </div>
+        <Footer />
     </div>
   )
 }
