@@ -28,9 +28,13 @@ export const useUploadImages = () => {
     }
 
     const imageIds = await Promise.all(files.map(async (file) => {
+      const timeStamp = Date.now()
+      const signature = SHA1(`timestamp=${timeStamp}&upload_preset=${CLOUDINARY_UPLOAD_PRESET}${CLOUDINARY_API_SECRET}`)
       form.append('file', file)
+      form.append('api_key', CLOUDINARY_API_KEY)
+      form.append('timestamp', timeStamp)
       form.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-      form.append('folder', 'traincrop')
+      form.append('signature', signature)
 
       const response = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, form, {
         onUploadProgress: (progressEvent) => {
