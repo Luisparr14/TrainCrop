@@ -13,7 +13,7 @@ function MyDropzone ({ onDrop }) {
   return (
     <div {...getRootProps()} className="my-3 w-full">
       <input {...getInputProps()} />
-      <label className={`flex justify-center w-full h-32 px-4 transition bg-primary-300 border-2 border-dashed rounded-md appearance-none cursor-pointer focus:outline-none hover:border-gray-400 ${isDragActive ? 'border-blue-900' : 'border-accent-200'}`}>
+      <label className={`flex justify-center w-full py-2 px-4 transition bg-primary-300 border-2 border-dashed rounded-md appearance-none cursor-pointer focus:outline-none hover:border-gray-400 ${isDragActive ? 'border-blue-900' : 'border-accent-200'}`}>
         <span className="flex items-center space-x-2">
           <span className="font-medium text-gray-900 flex flex-col justify-center items-center">
             {isDragActive
