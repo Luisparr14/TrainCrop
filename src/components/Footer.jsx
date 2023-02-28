@@ -17,7 +17,7 @@ function Footer () {
       </p>
       <p>
       Hackathon organized by
-        <a href='https://www.meetup.com/es-ES/ReactJS-Madrid/' target='_blank' rel='noopener noreferrer'>
+        <a href='https://midu.dev/' target='_blank' rel='noopener noreferrer'>
           <span className='hover:text-blue-600'> Midudev </span>
         </a>
         and sponsored by
