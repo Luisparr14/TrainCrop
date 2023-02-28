@@ -17,9 +17,9 @@ function MyDropzone ({ onDrop }) {
         <span className="flex items-center space-x-2">
           <span className="font-medium text-gray-900 flex flex-col justify-center items-center">
             {isDragActive
-              ? <p>Drop all files that you want here</p>
+              ? <p>YES! Drop the files here</p>
               : <>
-                  <p>Drop one or more files here, or click to select files</p>
+                  <p>Drop one to five files here, or click on <strong>browse files</strong> to select files</p>
                   <span className="text-gray-900 mt-4 font-bold bg-primary-200 p-2 rounded-lg">browse files</span>
                 </>
             }

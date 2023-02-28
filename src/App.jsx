@@ -5,12 +5,11 @@ import MyDropzone from './components/DropZone'
 import ResultImage from './components/ResultImage'
 import { saveAs } from 'file-saver'
 import { useUploadImages } from './hooks/useImages'
-import { getBase64 } from './utils'
+import { getBase64, getDropZoneErrors } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
 import Error from './components/Error'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
-import { getDropZoneErrors } from './utils/errorHandler'
 
 function App () {
   const [loading, setLoading] = useState(false)
