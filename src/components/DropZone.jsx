@@ -6,7 +6,8 @@ import { ACCEPTED_FILE_TYPES } from '../constants'
 function MyDropzone ({ onDrop }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: ACCEPTED_FILE_TYPES
+    accept: ACCEPTED_FILE_TYPES,
+    maxFiles: 5
   })
 
   return (

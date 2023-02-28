@@ -9,7 +9,8 @@ import { getBase64 } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
 import Error from './components/Error'
-import { ACCEPTED_FILE_TYPES, CLOUDINARY_CLOUD_NAME } from './constants'
+import { CLOUDINARY_CLOUD_NAME } from './constants'
+import { getDropZoneErrors } from './utils/errorHandler'
 
 function App () {
   const [loading, setLoading] = useState(false)
@@ -20,12 +21,14 @@ function App () {
 
   const resetError = debounce(() => {
     setError(null)
-  }, 2000)
+  }, 5000)
 
   const handleOnDrop = async (acceptedFiles, rejectedFiles) => {
     setError(null)
     if (rejectedFiles.length) {
-      setError(`The file type is not supported, please upload a file with the following extensions: ${ACCEPTED_FILE_TYPES['image/*'].join(', ')}`)
+      const { errors } = rejectedFiles[0]
+      const error = getDropZoneErrors(errors[0])
+      setError(error)
       resetError()
       return
     }
