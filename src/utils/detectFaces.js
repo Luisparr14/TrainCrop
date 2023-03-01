@@ -1,9 +1,9 @@
-import { fetchImage, detectAllFaces } from 'face-api.js'
+import { fetchImage, detectAllFaces, TinyFaceDetectorOptions } from 'face-api.js'
 
 export const detectFaces = async (file) => {
   try {
     const image = await fetchImage(URL.createObjectURL(file))
-    const detections = await detectAllFaces(image)
+    const detections = await detectAllFaces(image, new TinyFaceDetectorOptions())
     const numFaces = detections.length
 
     return numFaces

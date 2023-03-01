@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 
-nets.ssdMobilenetv1.loadFromUri('/models').then(() => {
+nets.tinyFaceDetector.loadFromUri('/models').then(() => {
   console.log('Loaded model')
 })
 
