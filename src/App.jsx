@@ -11,9 +11,11 @@ import Input from './components/Input'
 import Error from './components/Error'
 import Footer from './components/Footer'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
+import { filterFilesWithFaces } from './utils/filterAcceptedFiles'
 
 function App () {
   const [loading, setLoading] = useState(false)
+  const [scaning, setScaning] = useState(false)
   const [error, setError] = useState(null)
   const [width, setWidth] = useState(512)
   const [height, setHeight] = useState(512)
@@ -21,20 +23,44 @@ function App () {
 
   const resetError = debounce(() => {
     setError(null)
-  }, 5000)
+  }, 7000)
 
   const handleOnDrop = async (acceptedFiles, rejectedFiles) => {
-    setError(null)
-    if (rejectedFiles.length) {
-      const { errors } = rejectedFiles[0]
-      const error = getDropZoneErrors(errors[0])
-      setError(error)
-      resetError()
-      return
-    }
-    setLoading(true)
     try {
-      await uploadImage({ files: acceptedFiles })
+      setError(null)
+      if (rejectedFiles.length) {
+        const { errors } = rejectedFiles[rejectedFiles.length - 1]
+        const error = getDropZoneErrors(errors[0])
+        setError({
+          type: acceptedFiles.length ? 'warning' : 'error',
+          message: error
+        })
+        resetError()
+        if (!acceptedFiles.length) return
+      }
+      setScaning(true)
+
+      const { filesWithFaces, areImagesRejected } = await filterFilesWithFaces(acceptedFiles)
+
+      if (areImagesRejected) {
+        setError({
+          type: 'warning',
+          message: 'Some images were rejected because they did not contain faces or more than one face'
+        })
+        resetError()
+      }
+      setScaning(false)
+      setLoading(true)
+
+      if (filesWithFaces.length) {
+        await uploadImage({ files: filesWithFaces })
+      } else {
+        setError({
+          type: 'error',
+          message: 'No images were accepted because they did not contain faces or more than one face'
+        })
+        resetError()
+      }
     } catch (error) {
       console.error(error)
     }
@@ -108,12 +134,15 @@ function App () {
         </section>
         <section className='flex flex-col max-w-lg w-full justify-center items-center'>
           <MyDropzone onDrop={handleOnDrop} />
-          <div className='min-h-[64px] w-full flex justify-center items-center'>
+          <div className='min-h-[64px] gap-y-3 w-full flex-col flex justify-center items-center'>
+          {
+            error && <Error error={error} />
+          }
           {
             loading && <Loading percentage={percentage} />
           }
           {
-            error && <Error error={error} />
+            scaning && <span className='font-bold text-primary-300'>We are detecting faces...</span>
           }
           </div>
         </section>
