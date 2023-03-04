@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import JSZip from 'jszip'
+import { nets } from 'face-api.js'
 import debounce from 'lodash/debounce'
 import MyDropzone from './components/DropZone'
 import ResultImage from './components/ResultImage'
@@ -12,7 +13,6 @@ import Error from './components/Error'
 import Footer from './components/Footer'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
 import { filterFilesWithFaces } from './utils/filterAcceptedFiles'
-import { nets } from 'face-api.js'
 
 function App () {
   const [loading, setLoading] = useState(false)
