@@ -6,11 +6,13 @@ import MyDropzone from './components/DropZone'
 import ResultImage from './components/ResultImage'
 import { saveAs } from 'file-saver'
 import { useUploadImages } from './hooks/useImages'
+import { useModal } from './hooks/useModal'
 import { getBase64, getDropZoneErrors } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
 import Error from './components/Error'
 import Footer from './components/Footer'
+import Modal from './components/Modal'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
 import { filterFilesWithFaces } from './utils/filterAcceptedFiles'
 
@@ -22,6 +24,7 @@ function App () {
   const [height, setHeight] = useState(256)
   const [modelLoaded, setModelLoaded] = useState(false)
   const { imageIds, percentage, uploadImage, deleteImages, deleteImage } = useUploadImages()
+  const { showModal, toggleModal } = useModal()
 
   useEffect(() => {
     const loadModel = async () => {
@@ -183,6 +186,7 @@ function App () {
         }
         </div>
         <Footer />
+        <Modal show={showModal} onClose={toggleModal} />
     </div>
   )
 }
