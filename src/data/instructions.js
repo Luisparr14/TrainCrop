@@ -1,5 +1,11 @@
 export const INSTRUCTIONS = [
   {
+    title: 'Welcome to TrainCrop, you will need some context',
+    description: 'This is a tool to crop images, thinking about the training of neural networks, it is a tool that will help you to prepare your images for training (focused on people\'s faces) you can upload your images and then you can choose the size of the images that you want to download, you can also delete your images.',
+    type: '',
+    source: ''
+  },
+  {
     title: 'Upload your images',
     description: 'Drag and drop your images or click on the button to select them',
     type: 'video',
