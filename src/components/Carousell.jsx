@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Player } from 'video-react'
 
 function Carousell ({ options }) {
   return (
@@ -18,9 +19,11 @@ function Carousell ({ options }) {
                 {source !== '' && (
                   <section className='w-full flex justify-center'>
                     {type === 'video'
-                      ? <video className="w-full h-full" autoPlay={true}>
-                        <source autoPlay src={source} type="video/mp4" />
-                      </video>
+                      ? <Player
+                        src={source}
+                        autoPlay
+                        preload='auto'
+                      />
                       : <img src={source} alt={title} className="" />
                     }
                   </section>

@@ -20,3 +20,7 @@
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 1px solid #2563eb;  /* creates padding around scroll thumb */
 }
+
+.video-react-control-bar, .video-react-button {
+  display: none !important;
+}
