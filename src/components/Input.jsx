@@ -10,7 +10,7 @@ function Input ({ label, id, onChange, ...props }) {
 
   return (
     <div className='w-full'>
-      {label && <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{`${label}: ${size}`}</label>}
+      {label && <label htmlFor={id} className="block mb-2 text-sm font-medium text-text-200 dark:text-white">{`${label}: ${size}`}</label>}
       <input
         id={id}
         onChange={handleChange}

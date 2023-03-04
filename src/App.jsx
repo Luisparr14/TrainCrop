@@ -6,13 +6,18 @@ import MyDropzone from './components/DropZone'
 import ResultImage from './components/ResultImage'
 import { saveAs } from 'file-saver'
 import { useUploadImages } from './hooks/useImages'
+import { useModal } from './hooks/useModal'
 import { getBase64, getDropZoneErrors } from './utils'
 import Loading from './components/Loading'
 import Input from './components/Input'
 import Error from './components/Error'
 import Footer from './components/Footer'
+import Modal from './components/Modal'
+import Instructions from './components/Instructions'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
 import { filterFilesWithFaces } from './utils/filterAcceptedFiles'
+import Info from './components/Info'
+import Shortcuts from './components/Shortcuts'
 
 function App () {
   const [loading, setLoading] = useState(false)
@@ -22,6 +27,8 @@ function App () {
   const [height, setHeight] = useState(256)
   const [modelLoaded, setModelLoaded] = useState(false)
   const { imageIds, percentage, uploadImage, deleteImages, deleteImage } = useUploadImages()
+  const [showInstructions, toggleInstructions] = useModal('instructions')
+  const [showInfo, toggleInfo] = useModal('info')
 
   useEffect(() => {
     const loadModel = async () => {
@@ -183,6 +190,13 @@ function App () {
         }
         </div>
         <Footer />
+        <Modal show={showInfo}>
+          <Shortcuts onClose={toggleInfo} />
+        </Modal>
+        <Modal show={showInstructions}>
+          <Instructions onClose={toggleInstructions} />
+        </Modal>
+        <Info onClick={toggleInfo} />
     </div>
   )
 }

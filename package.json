@@ -13,11 +13,13 @@
     "crypto-js": "^4.1.1",
     "face-api.js": "^0.22.2",
     "file-saver": "^2.0.5",
+    "flowbite": "^1.6.3",
     "jszip": "^3.10.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-dropzone": "^14.2.3"
+    "react-dropzone": "^14.2.3",
+    "video-react": "^0.16.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
