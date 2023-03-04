@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 
 function Error ({ error }) {
-  const { type, message } = error
+  const { type, message, showTitle = true } = error
 
   const getColor = () => {
     switch (type) {
@@ -33,7 +33,7 @@ function Error ({ error }) {
   return (
     <div className={`p-4 rounded-md w-full ${getColor()}`}>
       <div className="flex flex-col justify-center items-center">
-        <h1 className="font-bold text-gray-900">{getMessages()}</h1>
+        {showTitle && <h1 className="font-bold text-gray-900">{getMessages()}</h1>}
         <p className="text-gray-900 font-medium">{message}</p>
       </div>
     </div>
