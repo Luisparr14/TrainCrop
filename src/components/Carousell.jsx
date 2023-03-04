@@ -6,7 +6,7 @@ function Carousell ({ options }) {
   return (
     <div id="animation-carousel" className="relative sm:text-white" data-carousel="static">
       {/* <!-- Carousel wrapper --> */}
-      <div className="relative h-[27rem] overflow-hidden rounded-lg sm:h-[32rem] md:h-[34rem]">
+      <div className="relative h-[28rem] overflow-hidden rounded-lg sm:h-[33rem] md:h-[35rem]">
         {options.map((instruction, index) => {
           const { title, description, type, source } = instruction
           return (
@@ -14,6 +14,7 @@ function Carousell ({ options }) {
               <div className="flex gap-4 flex-col items-center sm:justify-center text-center bg-bg-300 h-full">
                 <section className='w-full flex flex-col justify-center'>
                   <h2 className="text-2xl font-semibold text-text-100">{title}</h2>
+                  {type === 'video' && <p className="mt-2 text-green-500 font-semibold">Click on the video to play it</p>}
                   <p className="mt-2 text-text-100 font-semibold">{description}</p>
                 </section>
                 {source !== '' && (
