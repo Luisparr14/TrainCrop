@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import JSZip from 'jszip'
 import debounce from 'lodash/debounce'
 import MyDropzone from './components/DropZone'
@@ -12,6 +12,7 @@ import Error from './components/Error'
 import Footer from './components/Footer'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
 import { filterFilesWithFaces } from './utils/filterAcceptedFiles'
+import { nets } from 'face-api.js'
 
 function App () {
   const [loading, setLoading] = useState(false)
@@ -19,11 +20,30 @@ function App () {
   const [error, setError] = useState(null)
   const [width, setWidth] = useState(256)
   const [height, setHeight] = useState(256)
+  const [modelLoaded, setModelLoaded] = useState(false)
   const { imageIds, percentage, uploadImage, deleteImages, deleteImage } = useUploadImages()
+
+  useEffect(() => {
+    const loadModel = async () => {
+      setError({
+        type: 'warning',
+        message: 'Loading model to detect faces, this may take a few seconds depending on your internet connection',
+        showTitle: false
+      })
+      await nets.ssdMobilenetv1.loadFromUri('/models')
+      setModelLoaded(true)
+      setError(null)
+    }
+    loadModel()
+  }, [])
 
   const resetError = debounce(() => {
     setError(null)
   }, 7000)
+
+  useEffect(() => {
+    console.log('Model loaded', modelLoaded)
+  }, [modelLoaded])
 
   const handleOnDrop = async (acceptedFiles, rejectedFiles) => {
     try {
@@ -133,7 +153,7 @@ function App () {
           />
         </section>
         <section className='flex flex-col max-w-lg w-full justify-center items-center'>
-          <MyDropzone onDrop={handleOnDrop} />
+          {modelLoaded && <MyDropzone onDrop={handleOnDrop} />}
           <div className='min-h-[64px] gap-y-3 w-full flex-col flex justify-center items-center'>
           {
             error && <Error error={error} />
