@@ -41,10 +41,6 @@ function App () {
     setError(null)
   }, 7000)
 
-  useEffect(() => {
-    console.log('Model loaded', modelLoaded)
-  }, [modelLoaded])
-
   const handleOnDrop = async (acceptedFiles, rejectedFiles) => {
     try {
       setError(null)
