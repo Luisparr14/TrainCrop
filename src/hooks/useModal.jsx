@@ -11,7 +11,7 @@ export const useModal = () => {
           setShowModal(false)
           break
         case '?':
-          setShowModal(true)
+          setShowModal(prev => !prev)
           break
         default:
           break
