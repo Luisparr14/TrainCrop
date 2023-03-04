@@ -17,8 +17,8 @@ function Shortcuts ({ onClose }) {
       </div>
       <div className="h-96">
         <div className="flex flex-col items-center justify-center h-full">
-          {isMobile && <p className="text-xl font-semibold text-text-100 dark:text-white">The shortcut is not available on mobile devices</p>}
           <div className="flex flex-col items-center justify-center space-y-4">
+            {isMobile && <p className="text-sm font-semibold text-red-600 dark:text-white">The shortcut is not available on mobile devices</p>}
             <p className="text-xl font-semibold text-text-100 dark:text-white">Press <span className="text-primary-300">?</span> to open the instructions</p>
           </div>
         </div>
