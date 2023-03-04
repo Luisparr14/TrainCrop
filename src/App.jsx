@@ -13,6 +13,7 @@ import Input from './components/Input'
 import Error from './components/Error'
 import Footer from './components/Footer'
 import Modal from './components/Modal'
+import Instructions from './components/Instructions'
 import { CLOUDINARY_CLOUD_NAME } from './constants'
 import { filterFilesWithFaces } from './utils/filterAcceptedFiles'
 
@@ -186,7 +187,9 @@ function App () {
         }
         </div>
         <Footer />
-        <Modal show={showModal} onClose={toggleModal} />
+        <Modal show={showModal}>
+          <Instructions onClose={toggleModal} />
+        </Modal>
     </div>
   )
 }
