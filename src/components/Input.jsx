@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import propTypes from 'prop-types'
 
 function Input ({ label, id, onChange, ...props }) {
-  const [size, setSize] = useState(512)
+  const [size, setSize] = useState(256)
   const handleChange = (evt) => {
     setSize(evt.target.value)
     onChange(evt)

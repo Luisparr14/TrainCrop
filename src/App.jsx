@@ -17,8 +17,8 @@ function App () {
   const [loading, setLoading] = useState(false)
   const [scaning, setScaning] = useState(false)
   const [error, setError] = useState(null)
-  const [width, setWidth] = useState(512)
-  const [height, setHeight] = useState(512)
+  const [width, setWidth] = useState(256)
+  const [height, setHeight] = useState(256)
   const { imageIds, percentage, uploadImage, deleteImages, deleteImage } = useUploadImages()
 
   const resetError = debounce(() => {

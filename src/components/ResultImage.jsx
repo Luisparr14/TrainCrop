@@ -34,7 +34,7 @@ ResultImage.propTypes = {
 }
 
 ResultImage.defaultProps = {
-  width: 512,
-  height: 512,
+  width: 256,
+  height: 256,
   onDeleteImage: () => console.log('onDeleteImage')
 }
