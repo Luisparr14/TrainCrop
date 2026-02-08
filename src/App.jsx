@@ -18,7 +18,7 @@ import { CLOUDINARY_CLOUD_NAME } from './constants'
 import { filterFilesWithFaces } from './utils/filterAcceptedFiles'
 import Info from './components/Info'
 import Shortcuts from './components/Shortcuts'
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from '@vercel/analytics/react'
 
 function App () {
   const [loading, setLoading] = useState(false)
